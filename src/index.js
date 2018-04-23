@@ -21,9 +21,12 @@ class App extends Component {
       videos: [],
       selectedVideo: null
     }
+    this.videoSearch('surfboards');
+  }
+  videoSearch(term) {
     //run YT search when App component renders
     YTSearch({
-      key: API_KEY, term: 'surfboards'
+      key: API_KEY, term: term
     }, videos => this.setState({
       videos,
       selectedVideo: videos[0]
@@ -31,16 +34,15 @@ class App extends Component {
     )
   };
 
-
-//PRO-TIP: can define functions outside of render/sub-component (see YTSearch above) OR within a sub-component (see onVideoSelect below)
+  //PRO-TIP: can define functions outside of render/sub-component (see YTSearch above) OR within a sub-component (see onVideoSelect below)
   render() {
     return (
       <div>
-        <SearchBar />
+        <SearchBar onSearchTermChange={term => this.videoSearch(term)}/>
         <VideoDetail video={this.state.selectedVideo} />
         <VideoList
           videos={this.state.videos}
-          onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+          onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
         />
       </div>
     )
