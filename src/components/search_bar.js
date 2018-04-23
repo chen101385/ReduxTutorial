@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 //functional stateless component
 
@@ -10,17 +10,19 @@ import React, {Component} from 'react';
 //class-based stateful component
 
 class SearchBar extends Component {
+    //all class stateful components have a constructor function (props - passed into component)
     constructor(props) {
+        //calling parent method (super) with props passed in
         super(props)
-
+        //everytime state changes, component re-renders 
         this.state = {
-
+            term: ''
         }
     }
 
 
     render() {
-        return <input onChange={(e) => console.log(e.target.value)}/>
+        return <input onChange={e => this.setState({term: e.target.value})} />
     }
 
     // onInputChange(e) {
