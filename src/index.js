@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import YTSearch from 'youtube-api-search';
+//use "_" [underscore] for lodash
+import _ from 'lodash';
 
 // import App from './components/app';
 import SearchBar from './components/search_bar';
@@ -21,7 +23,8 @@ class App extends Component {
       videos: [],
       selectedVideo: null
     }
-    this.videoSearch('surfboards');
+    //default search upon initial component rendering
+    this.videoSearch('hello kitty');
   }
   videoSearch(term) {
     //run YT search when App component renders
@@ -36,9 +39,12 @@ class App extends Component {
 
   //PRO-TIP: can define functions outside of render/sub-component (see YTSearch above) OR within a sub-component (see onVideoSelect below)
   render() {
+    //debounce every 300ms to minimize lag
+    const videoSearch = _.debounce(term => {this.videoSearch(term)}, 300);
+
     return (
       <div>
-        <SearchBar onSearchTermChange={term => this.videoSearch(term)}/>
+        <SearchBar onSearchTermChange={videoSearch}/>
         <VideoDetail video={this.state.selectedVideo} />
         <VideoList
           videos={this.state.videos}
